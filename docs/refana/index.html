@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>index (refana.index)</title><link rel="stylesheet" href="../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body><div class="content"><header><nav><a href="../index.html">Up</a> – refana</nav><h1 id="refana"><a href="#refana" class="anchor"></a>Refana</h1><p>Define Grafana dashboards with ReasonML.</p><ul><li><a href="Refana/index.html"><span>API reference</span></a></li></ul><nav class="toc"><ul><li><a href="#usage">Usage</a><ul><li><a href="#defining-metrics">Defining metrics</a></li><li><a href="#creating-panels">Creating panels</a></li><li><a href="#creating-dashboards">Creating dashboards</a></li></ul></li></ul></nav></header><h2 id="usage"><a href="#usage" class="anchor"></a>Usage</h2><h3 id="defining-metrics"><a href="#defining-metrics" class="anchor"></a>Defining metrics</h3><pre><code class="ml">let cpu = (~name) =&gt;
+  Grafana.(Query.prometheus(Prometheus_query {
+    &quot;id&quot;: &quot;CPU&quot;,
+    &quot;expr&quot;: fmt(&quot;rate(cpu_seconds{container_name=~'%s'}[30s])&quot;, name),
+    &quot;format&quot;: &quot;time_series&quot;,
+    &quot;legend&quot;: &quot;cpu_seconds@{{pod_name}}&quot;
+  }));
+
+let mem = (~name) =&gt;
+  Grafana.(Query.prometheus(Prometheus_query {
+    &quot;id&quot;: &quot;MEM&quot;,
+    &quot;expr&quot;: fmt(&quot;sum(memory_rss{container_name=~'%s'}) by (pod_name)&quot;, name),
+    &quot;format&quot;: &quot;time_series&quot;,
+    &quot;legend&quot;: &quot;memory_rss@{{pod_name}}&quot;
+  }));</code></pre><h3 id="creating-panels"><a href="#creating-panels" class="anchor"></a>Creating panels</h3><pre><code class="ml">let name = &quot;my-app&quot;;
+
+let metrics = Grafana.[
+  Panel.row(Row {
+    &quot;title&quot;: &quot;My metrics&quot;,
+    &quot;position&quot;: size(~width=24, ~height=1),
+  }),
+
+  Panel.graph(Graph {
+    &quot;title&quot;: &quot;Container CPU usage&quot;,
+    &quot;position&quot;: size(~width=12, ~height=9),
+    &quot;queries&quot;: [cpu(~name)]
+  }),
+  Panel.graph(Graph {
+    &quot;title&quot;: &quot;Container memory usage&quot;,
+    &quot;position&quot;: size(~width=12, ~height=9),
+    &quot;queries&quot;: [Std.Grafana.Metrics.mem(~name)]
+  })
+];</code></pre><h3 id="creating-dashboards"><a href="#creating-dashboards" class="anchor"></a>Creating dashboards</h3><pre><code class="ml">let dash = Grafana.Dashboard {
+  &quot;title&quot;: &quot;My Monitoring Dashboard&quot;,
+  &quot;panels&quot;: Grafana.panels([metrics])
+}</code></pre></div></body></html>

@@ -1,0 +1,27 @@
+{
+  "name": "refana",
+  "version": "0.1.0",
+  "description": "Define Grafana dashboards with ReasonML",
+  "license": "MIT",
+  "esy": {
+    "build": "refmterr dune build"
+  },
+  "scripts": {
+    "doc": "esy dune build @doc",
+    "open-doc": "open '#{self.target_dir}/default/_doc/_html/index.html'"
+  },
+  "dependencies": {
+    "@esy-ocaml/reason": "*",
+    "ocaml": "4.6.x",
+    "@opam/dune": "*",
+    "refmterr": "*",
+    "@opam/yojson": "*",
+    "@opam/ppx_deriving": "*",
+    "@opam/ppx_deriving_yojson": "*",
+    "ppx_obj_make": "git://github.com/rizo/ppx_obj_make.git#fe0914d"
+  },
+  "devDependencies": {
+    "odoc": "git://github.com/ocaml/odoc.git:odoc.opam#master",
+    "@opam/merlin": "*"
+  }
+}

@@ -1,16 +1,16 @@
-# Refana
+
+{0 Refana}
 
 Define Grafana dashboards with ReasonML.
 
-- [Homepage](https://rizo.github.io/refana/refana/Refana)
-- [API reference](https://rizo.github.io/refana/refana)
+- {{!module:Refana} API reference}
 
 
-## Usage
+{1 Usage}
 
-### Defining metrics
+{2 Defining metrics}
 
-```reason
+{[
 let cpu = (~name) =>
   Grafana.(Query.prometheus(Prometheus_query {
     "id": "CPU",
@@ -26,11 +26,11 @@ let mem = (~name) =>
     "format": "time_series",
     "legend": "memory_rss@{{pod_name}}"
   }));
-```
+]}
 
-### Creating panels
+{2 Creating panels}
 
-```
+{[
 let name = "my-app";
 
 let metrics = Grafana.[
@@ -50,13 +50,13 @@ let metrics = Grafana.[
     "queries": [Std.Grafana.Metrics.mem(~name)]
   })
 ];
-```
+]}
 
-### Creating dashboards
+{2 Creating dashboards}
 
-```
+{[
 let dash = Grafana.Dashboard {
   "title": "My Monitoring Dashboard",
   "panels": Grafana.panels([metrics])
 }
-```
+]}
