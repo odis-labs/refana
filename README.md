@@ -30,7 +30,7 @@ let mem = (~name) =>
 
 ### Creating panels
 
-```
+```reason
 let name = "my-app";
 
 let metrics = Grafana.[
@@ -54,7 +54,7 @@ let metrics = Grafana.[
 
 ### Creating dashboards
 
-```
+```reason
 let dash = Grafana.Dashboard {
   "title": "My Monitoring Dashboard",
   "panels": Grafana.panels([metrics])
