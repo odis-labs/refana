@@ -148,6 +148,10 @@ module Template: {
     ~include_all: bool=?,
     ~multi: bool=?,
     ~sort: int=?,
+    ~kind: string=?,
+    ~tags: list(string)=?,
+    ~tagsQuery: string=?,
+    ~use_tags: bool=?,
     unit
   ) => t;
 };

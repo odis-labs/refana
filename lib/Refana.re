@@ -357,7 +357,21 @@ module Template = {
     multi: bool,
 
     [@deriving.make.default 0]
-    sort: int
+    sort: int,
+
+    [@deriving.yojson.key "type"]
+    [@deriving.make.default "query"]
+    kind: string,
+    
+    [@deriving.make.default []]
+    tags: list(string),
+
+    [@deriving.make.default ""]
+    tagsQuery: string,
+
+    [@deriving.yojson.key "useTags"]
+    [@deriving.make.default false]
+    use_tags: bool
   };
 };
 
