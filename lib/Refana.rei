@@ -116,6 +116,42 @@ module Panel: {
 
 [@ocaml.text "{1 Dashboard}"];
 
+/** Dashboard templates and variables.
+ 
+    - {{:https://grafana.com/docs/reference/templating} Variables – Grafana Reference}
+ */
+module Template: {
+  type t;
+
+  type variable_option;
+
+  let variable_option: (
+    ~tags: list(string)=?,
+    ~text: string,
+    ~value: string,
+    ~selected: bool=?,
+    unit
+  ) => variable_option;
+
+  let make: (
+    ~name: string,
+    ~datasource: string,
+    ~query: string,
+    ~label: option(string)=?,
+    ~all_value: option(string)=?,
+    ~tag_values_query: string=?,
+    ~current: option(variable_option)=?,
+    ~options: list(variable_option)=?,
+    ~hide: int=?,
+    ~regex: string=?,
+    ~refresh: string=?,
+    ~include_all: bool=?,
+    ~multi: bool=?,
+    ~sort: int=?,
+    unit
+  ) => t;
+};
+
 module Dashboard: {
   type annotation;
   let annotation: (
@@ -146,6 +182,6 @@ module Dashboard: {
   let to_yojson: t => Yojson.Safe.t;
 };
 
-let layout: list(list(Panel.t)) => list(Panel.t);
 /** Produces a list of automatically positioned palels.
     The input is a list of rows, where each row can contain mutliple horizontal panels. */
+let layout: list(list(Panel.t)) => list(Panel.t);

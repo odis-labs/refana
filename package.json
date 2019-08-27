@@ -4,7 +4,10 @@
   "description": "Define Grafana dashboards with ReasonML",
   "license": "MIT",
   "esy": {
-    "build": "refmterr dune build"
+    "build": "refmterr dune build",
+    "buildEnv": {
+      "ODOC_SYNTAX": "re"
+    }
   },
   "scripts": {
     "doc": "esy dune build @doc",

@@ -304,6 +304,63 @@ module Panel = {
     };
 };
 
+
+module Template = {
+  [@deriving (make, to_yojson { strict: false })]
+  type variable_option = {
+    [@deriving.make.default []]
+    tags: list(string),
+    text: string,
+    value: string,
+    [@deriving.make.default false]
+    selected: bool
+  };
+  let variable_option = make_variable_option;
+
+  [@deriving (make, to_yojson { strict: false })]
+  type t = {
+    name: string,
+    datasource: string,
+    query: string,
+
+    [@deriving.make.default None]
+    label: option(string),
+
+    [@deriving.yojson.key "allValue"]
+    [@deriving.make.default None]
+    all_value: option(string),
+
+    [@deriving.yojson.key "tagValuesQuery"]
+    [@deriving.make.default ""]
+    tag_values_query: string,
+
+    [@deriving.make.default None]
+    current: option(variable_option),
+
+    [@deriving.make.default []]
+    options: list(variable_option),
+
+    [@deriving.make.default 0]
+    hide: int,
+
+    [@deriving.make.default ""]
+    regex: string,
+
+    [@deriving.make.default "never"]
+    refresh: string,
+
+    [@deriving.make.default false]
+    include_all: bool,
+
+    [@deriving.make.default false]
+    multi: bool,
+
+    [@deriving.make.default 0]
+    sort: int
+  };
+};
+
+
 module Dashboard = {
   [@deriving (make, to_yojson { strict: false })]
   type annotation =  {
@@ -502,4 +559,3 @@ let _gen = (~namespace, ~environmets) => {
     close_out(out);
   });
 };
-
