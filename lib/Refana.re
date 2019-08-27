@@ -440,6 +440,11 @@ module Dashboard = {
   };
   let interval = make_interval;
 
+  [@deriving to_yojson { strict: false }]
+  type templating = {
+    list: list(Template.t)
+  };
+
 
   [@deriving (make, to_yojson { strict: false })]
   type t = {
@@ -480,6 +485,9 @@ module Dashboard = {
     [@deriving.make.default ""]
     timezone : string,
 
+    [@deriving.make.default None]
+    templating: option(templating),
+
     title : string,
 
     [@deriving.make.default None]
@@ -491,6 +499,47 @@ module Dashboard = {
     [@deriving.make.default 1]
     version : int
   }
+
+  let make = (
+    ~editable=?,
+    ~gnet_id=?,
+    ~graph_tooltip=?,
+    ~links=?,
+    ~panels=?,
+    ~schema_version=?,
+    ~style=?,
+    ~tags=?,
+    ~time=?,
+    ~timepicker=?,
+    ~timezone=?,
+    ~templates=[],
+    ~title,
+    ~id=?,
+    ~uid=?,
+    ~version=?,
+    ()
+  ) =>
+    make(
+      ~editable?,
+      ~gnet_id?,
+      ~graph_tooltip?,
+      ~links?,
+      ~panels?,
+      ~schema_version?,
+      ~style?,
+      ~tags?,
+      ~time?,
+      ~timepicker?,
+      ~timezone?,
+      ~templating=Some({list: templates}),
+      ~title,
+      ~id?,
+      ~uid?,
+      ~version?,
+      ()
+    );
+
+
 };
 
 type environment = {

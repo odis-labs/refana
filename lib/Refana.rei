@@ -172,11 +172,23 @@ module Dashboard: {
 
   type t;
   let make: (
-    ~editable: bool=?, ~gnet_id: option(int)=?, ~graph_tooltip: int=?,
-    ~links: list(string)=?, ~panels: list(Panel.t)=?, ~schema_version: int=?,
-    ~style: string=?, ~tags: list(string)=?, ~time: interval=?, ~timepicker: timepicker=?,
-    ~timezone: string=?, ~title: string, ~id: option(int)=?, ~uid: option(string)=?,
-    ~version: int=?, unit
+    ~editable: bool=?,
+    ~gnet_id: option(int)=?,
+    ~graph_tooltip: int=?,
+    ~links: list(string)=?,
+    ~panels: list(Panel.t)=?,
+    ~schema_version: int=?,
+    ~style: string=?,
+    ~tags: list(string)=?,
+    ~time: interval=?,
+    ~timepicker: timepicker=?,
+    ~timezone: string=?,
+    ~templates: list(Template.t)=?,
+    ~title: string,
+    ~id: option(int)=?,
+    ~uid: option(string)=?,
+    ~version: int=?,
+    unit
   ) => t;
 
   let to_yojson: t => Yojson.Safe.t;
