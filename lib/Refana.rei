@@ -123,15 +123,16 @@ module Panel: {
 module Template: {
   type t;
 
-  type variable_option;
-
-  let variable_option: (
-    ~tags: list(string)=?,
-    ~text: string,
-    ~value: string,
-    ~selected: bool=?,
-    unit
-  ) => variable_option;
+  module Option: {
+    type t;
+    let make: (
+      ~tags: list(string)=?,
+      ~text: string,
+      ~value: string,
+      ~selected: bool=?,
+      unit
+    ) => t;
+  };
 
   let make: (
     ~name: string,
@@ -140,11 +141,11 @@ module Template: {
     ~label: option(string)=?,
     ~all_value: option(string)=?,
     ~tag_values_query: string=?,
-    ~current: option(variable_option)=?,
-    ~options: list(variable_option)=?,
+    ~current: option(Option.t)=?,
+    ~options: list(Option.t)=?,
     ~hide: int=?,
     ~regex: string=?,
-    ~refresh: string=?,
+    ~refresh: int=?,
     ~include_all: bool=?,
     ~multi: bool=?,
     ~sort: int=?,

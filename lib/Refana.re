@@ -306,16 +306,19 @@ module Panel = {
 
 
 module Template = {
-  [@deriving (make, to_yojson { strict: false })]
-  type variable_option = {
-    [@deriving.make.default []]
-    tags: list(string),
-    text: string,
-    value: string,
-    [@deriving.make.default false]
-    selected: bool
+  module Option = {
+    [@deriving (make, to_yojson { strict: false })]
+    type t = {
+      [@deriving.make.default []]
+      tags: list(string),
+
+      text: string,
+      value: string,
+      
+      [@deriving.make.default false]
+      selected: bool
+    };
   };
-  let variable_option = make_variable_option;
 
   [@deriving (make, to_yojson { strict: false })]
   type t = {
@@ -335,10 +338,10 @@ module Template = {
     tag_values_query: string,
 
     [@deriving.make.default None]
-    current: option(variable_option),
+    current: option(Option.t),
 
     [@deriving.make.default []]
-    options: list(variable_option),
+    options: list(Option.t),
 
     [@deriving.make.default 0]
     hide: int,
@@ -346,8 +349,8 @@ module Template = {
     [@deriving.make.default ""]
     regex: string,
 
-    [@deriving.make.default "never"]
-    refresh: string,
+    [@deriving.make.default 0]
+    refresh: int,
 
     [@deriving.yojson.key "includeAll"]
     [@deriving.make.default false]
