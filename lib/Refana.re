@@ -349,6 +349,7 @@ module Template = {
     [@deriving.make.default "never"]
     refresh: string,
 
+    [@deriving.yojson.key "includeAll"]
     [@deriving.make.default false]
     include_all: bool,
 
