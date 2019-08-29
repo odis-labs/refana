@@ -288,19 +288,166 @@ module Row = {
 };
 
 
+module Singlestat = {
+  [@deriving (to_yojson { strict: false })]
+  type value_map = {
+    value: string,
+    op: string,
+    text: string,
+  };
+
+  [@deriving (to_yojson { strict: false })]
+  type range_map = {
+    from: string,
+
+    [@deriving.yojson.key "to"]
+    to_: string,
+
+    text: string,
+  };
+
+  [@deriving (make, to_yojson { strict: false })]
+  type t = {
+    title: string,
+
+    [@deriving.yojson.key "gridPos"]
+    position: grid_pos,
+
+    [@deriving.make.default "none"]
+    format: string,
+
+    [@deriving.make.default ""]
+    description: string,
+
+    [@deriving.make.default None]
+    interval: option(string),
+
+    [@deriving.make.default None]
+    datasource: option(string),
+
+    [@deriving.make.default None]
+    span: option(float),
+
+    [@deriving.make.default None]
+    min_span: option(float),
+
+    [@deriving.make.default None]
+    decimals: option(float),
+
+    [@deriving.yojson.key "valueName"]
+    [@deriving.make.default "avg"]
+    value_name: string,
+
+    [@deriving.yojson.key "valueFontSize"]
+    [@deriving.make.default "80%"]
+    value_font_size: string,
+
+    [@deriving.yojson.key "prefixFontSize"]
+    [@deriving.make.default "50%"]
+    prefix_font_size: string,
+
+    [@deriving.yojson.key "postfixFontSize"]
+    [@deriving.make.default "50%"]
+    postfix_font_size: string,
+
+    [@deriving.yojson.key "mappingType"]
+    [@deriving.make.default 1]
+    mapping_type: int,
+
+    [@deriving.make.default None]
+    repeat: option(string),
+
+    [@deriving.yojson.key "repeatDirection"]
+    [@deriving.make.default None]
+    repeat_direction: option(string),
+
+    [@deriving.make.default ""]
+    prefix: string,
+
+    [@deriving.make.default ""]
+    postfix: string,
+
+    [@deriving.make.default ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"]]
+    colors: list(string),
+
+    [@deriving.yojson.key "colorBackground"]
+    [@deriving.make.default false]
+    color_background: bool,
+
+    [@deriving.yojson.key "colorValue"]
+    [@deriving.make.default false]
+    color_value: bool,
+
+    [@deriving.make.default ""]
+    thresholds: string,
+
+    [@deriving.yojson.key "valueMaps"]
+    [@deriving.make.default [{value: "null", op: "=", text: "N/A"}]]
+    value_maps: list(value_map),
+
+    [@deriving.yojson.key "rangeMaps"]
+    [@deriving.make.default [{from: "null", to_: "null", text: "N/A"}]]
+    range_maps: list(range_map),
+
+    [@deriving.make.default false]
+    transparent: bool,
+
+    [@deriving.yojson.key "sparklineFillColor"]
+    [@deriving.make.default "rgba(31, 118, 189, 0.18)"]
+    sparkline_fill_color: string,
+
+    [@deriving.yojson.key "sparklineFull"]
+    [@deriving.make.default false]
+    sparkline_full: bool,
+
+    [@deriving.yojson.key "sparklineLineColor"]
+    [@deriving.make.default "rgb(31, 120, 193)"]
+    sparkline_line_color: string,
+
+    [@deriving.yojson.key "sparklineShow"]
+    [@deriving.make.default false]
+    sparkline_show: bool,
+
+    [@deriving.yojson.key "gaugeShow"]
+    [@deriving.make.default false]
+    gauge_show: bool,
+
+    [@deriving.yojson.key "gaugeMinValue"]
+    [@deriving.make.default 0.0]
+    gauge_min_value: float,
+
+    [@deriving.yojson.key "gaugeMaxValue"]
+    [@deriving.make.default 100.0]
+    gauge_max_value: float,
+
+    [@deriving.yojson.key "gaugeThresholdMarkers"]
+    [@deriving.make.default true]
+    gauge_threshold_markers: bool,
+
+    [@deriving.yojson.key "gaugeThresholdLabels"]
+    [@deriving.make.default false]
+    gauge_threshold_labels: bool,
+  };
+};
+
+
 
 module Panel = {
   type t =
     | Row(Row.t)
-    | Graph(Graph.t);
+    | Graph(Graph.t)
+    | Singlestat(Singlestat.t)
+    ;
 
   let row = x => Row(x)
   let graph = x => Graph(x)
+  let singlestat = x => Singlestat(x)
 
   let to_yojson = (panel) =>
     switch(panel) {
     | Row(row) => Row.to_yojson(row)
     | Graph(graph) => Graph.to_yojson(graph)
+    | Singlestat(x) => Singlestat.to_yojson(x)
     };
 };
 
@@ -591,6 +738,12 @@ let layout = (dash) => {
       let next_acc = { w: graph.position.w, h: graph.position.h, x, y };
 
       (next_acc, [Panel.Graph({...graph, position: next_acc}), ...panels]);
+    }
+    | Panel.Singlestat(singlestat) => {
+      let (x, y) = get_coordinates(acc, singlestat.position);
+      let next_acc = { w: singlestat.position.w, h: singlestat.position.h, x, y };
+
+      (next_acc, [Panel.Singlestat({...singlestat, position: next_acc}), ...panels]);
     }
     | Panel.Row(row) => {
       let (x, y) = get_coordinates(acc, row.position);

@@ -104,14 +104,70 @@ module Row: {
 };
 
 
+module Singlestat: {
+  type t;
+
+  type value_map = {
+    value: string,
+    op: string,
+    text: string,
+  };
+
+  type range_map = {
+    from: string,
+    to_: string,
+    text: string,
+  };
+
+  let make: (
+    ~title: string,
+    ~position: grid_pos,
+    ~format: string=?,
+    ~description: string=?,
+    ~interval: option(string)=?,
+    ~datasource: option(string)=?,
+    ~span: option(float)=?,
+    ~min_span: option(float)=?,
+    ~decimals: option(float)=?,
+    ~value_name: string=?,
+    ~value_font_size: string=?,
+    ~prefix_font_size: string=?,
+    ~postfix_font_size: string=?,
+    ~mapping_type: int=?,
+    ~repeat: option(string)=?,
+    ~repeat_direction: option(string)=?,
+    ~prefix: string=?,
+    ~postfix: string=?,
+    ~colors: list(string)=?,
+    ~color_background: bool=?,
+    ~color_value: bool=?,
+    ~thresholds: string=?,
+    ~value_maps: list(value_map)=?,
+    ~range_maps: list(range_map)=?,
+    ~transparent: bool=?,
+    ~sparkline_fill_color: string=?,
+    ~sparkline_full: bool=?,
+    ~sparkline_line_color: string=?,
+    ~sparkline_show: bool=?,
+    ~gauge_show: bool=?,
+    ~gauge_min_value: float=?,
+    ~gauge_max_value: float=?,
+    ~gauge_threshold_markers: bool=?,
+    ~gauge_threshold_labels: bool=?,
+    unit
+  ) => t;
+};
+
 
 module Panel: {
   type t =
     | Row(Row.t)
-    | Graph(Graph.t);
+    | Graph(Graph.t)
+    | Singlestat(Singlestat.t);
 
   let row: Row.t => t;
   let graph: Graph.t => t;
+  let singlestat: Singlestat.t => t;
 };
 
 [@ocaml.text "{1 Dashboard}"];
