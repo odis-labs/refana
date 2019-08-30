@@ -371,8 +371,8 @@ module Singlestat = {
     [@deriving.yojson.key "gridPos"]
     position: grid_pos,
 
-    [@deriving.make.default None]
-    id: option(int),
+    [@deriving.make.default id()]
+    id: int,
 
     [@deriving.make.default "none"]
     format: string,
@@ -387,8 +387,8 @@ module Singlestat = {
     [@deriving.make.default None]
     interval: option(string),
 
-    [@deriving.make.default None]
-    datasource: option(string),
+    [@deriving.make.default ""]
+    datasource: string,
 
     [@deriving.make.default None]
     span: option(float),
