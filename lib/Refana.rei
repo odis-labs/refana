@@ -119,10 +119,48 @@ module Singlestat: {
     text: string,
   };
 
+  module Sparkline: {
+    type t;
+
+    let make: (
+      ~fill_color: string=?,
+      ~full: bool=?,
+      ~lineColor: string=?,
+      ~show: bool=?,
+      unit
+    ) => t;
+  }
+
+  module Gauge: {
+    type t;
+    let make: (
+      ~min_value: float=?,
+      ~max_value: float=?,
+      ~show: bool=?,
+      ~threshold_labels: bool=?,
+      ~threshold_markers: bool=?,
+      unit
+    ) => t;
+  }
+
+  module Target: {
+    type t;
+
+    let make: (
+      ~expr: string,
+      ~format: string=?,
+      ~interval_factor: int,
+      ~ref_id: string,
+      unit
+    ) => t;
+  }
+
   let make: (
-    ~title: string,
+        ~title: string,
     ~position: grid_pos,
+    ~id: option(int)=?,
     ~format: string=?,
+    ~kind: string=?,
     ~description: string=?,
     ~interval: option(string)=?,
     ~datasource: option(string)=?,
@@ -131,13 +169,13 @@ module Singlestat: {
     ~decimals: option(float)=?,
     ~value_name: string=?,
     ~value_font_size: string=?,
+    ~prefix: string=?,
+    ~postfix: string=?,
     ~prefix_font_size: string=?,
     ~postfix_font_size: string=?,
     ~mapping_type: int=?,
-    ~repeat: option(string)=?,
-    ~repeat_direction: option(string)=?,
-    ~prefix: string=?,
-    ~postfix: string=?,
+    ~max_data_points: int=?,
+    ~null_point_mode: string=?,
     ~colors: list(string)=?,
     ~color_background: bool=?,
     ~color_value: bool=?,
@@ -145,15 +183,9 @@ module Singlestat: {
     ~value_maps: list(value_map)=?,
     ~range_maps: list(range_map)=?,
     ~transparent: bool=?,
-    ~sparkline_fill_color: string=?,
-    ~sparkline_full: bool=?,
-    ~sparkline_line_color: string=?,
-    ~sparkline_show: bool=?,
-    ~gauge_show: bool=?,
-    ~gauge_min_value: float=?,
-    ~gauge_max_value: float=?,
-    ~gauge_threshold_markers: bool=?,
-    ~gauge_threshold_labels: bool=?,
+    ~sparkline: Sparkline.t=?,
+    ~gauge: Gauge.t=?,
+    ~targets: list(Target.t)=?,
     unit
   ) => t;
 };

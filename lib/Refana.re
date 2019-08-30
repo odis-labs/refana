@@ -306,6 +306,64 @@ module Singlestat = {
     text: string,
   };
 
+  module Gauge = {
+    [@deriving (make, to_yojson { strict: false })]
+    type t = {
+      [@deriving.yojson.key "minValue"]
+      [@deriving.make.default 0.0]
+      min_value: float,
+
+      [@deriving.yojson.key "maxValue"]
+      [@deriving.make.default 100.0]
+      max_value: float,
+
+      [@deriving.make.default false]
+      show: bool,
+
+      [@deriving.yojson.key "thresholdLabels"]
+      [@deriving.make.default false]
+      threshold_labels: bool,
+
+      [@deriving.yojson.key "thresholdMarkers"]
+      [@deriving.make.default true]
+      threshold_markers: bool
+    };
+  };
+
+  module Sparkline = {
+    [@deriving (make, to_yojson { strict: false })]
+    type t = {
+      [@deriving.yojson.key "fillColor"]
+      [@deriving.make.default "rgba(31, 118, 189, 0.18)"]
+      fill_color: string,
+
+      [@deriving.make.default false]
+      full: bool,
+
+      [@deriving.make.default "rgb(31, 120, 193)"]
+      lineColor: string,
+
+      [@deriving.make.default true]
+      show: bool
+    };
+  }
+  
+  module Target = {
+    [@deriving (make, to_yojson { strict: false })]
+    type t = {
+      expr: string,
+
+      [@deriving.make.default "percent"]
+      format: string,
+
+      [@deriving.yojson.key "intervalFactor"]
+      interval_factor: int,
+
+      [@deriving.yojson.key "refId"]
+      ref_id: string
+    };
+  };
+
   [@deriving (make, to_yojson { strict: false })]
   type t = {
     title: string,
@@ -313,8 +371,15 @@ module Singlestat = {
     [@deriving.yojson.key "gridPos"]
     position: grid_pos,
 
+    [@deriving.make.default None]
+    id: option(int),
+
     [@deriving.make.default "none"]
     format: string,
+
+    [@deriving.yojson.key "type"]
+    [@deriving.make.default "singlestat"]
+    kind: string,
 
     [@deriving.make.default ""]
     description: string,
@@ -342,6 +407,12 @@ module Singlestat = {
     [@deriving.make.default "80%"]
     value_font_size: string,
 
+    [@deriving.make.default ""]
+    prefix: string,
+
+    [@deriving.make.default ""]
+    postfix: string,
+
     [@deriving.yojson.key "prefixFontSize"]
     [@deriving.make.default "50%"]
     prefix_font_size: string,
@@ -354,18 +425,13 @@ module Singlestat = {
     [@deriving.make.default 1]
     mapping_type: int,
 
-    [@deriving.make.default None]
-    repeat: option(string),
+    [@deriving.yojson.key "maxDataPoints"]
+    [@deriving.make.default 100]
+    max_data_points: int,
 
-    [@deriving.yojson.key "repeatDirection"]
-    [@deriving.make.default None]
-    repeat_direction: option(string),
-
-    [@deriving.make.default ""]
-    prefix: string,
-
-    [@deriving.make.default ""]
-    postfix: string,
+    [@deriving.yojson.key "nullPointMode"]
+    [@deriving.make.default "connected"]
+    null_point_mode: string,
 
     [@deriving.make.default ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"]]
     colors: list(string),
@@ -392,41 +458,13 @@ module Singlestat = {
     [@deriving.make.default false]
     transparent: bool,
 
-    [@deriving.yojson.key "sparklineFillColor"]
-    [@deriving.make.default "rgba(31, 118, 189, 0.18)"]
-    sparkline_fill_color: string,
+    [@deriving.make.default Sparkline.make()]
+    sparkline: Sparkline.t,
 
-    [@deriving.yojson.key "sparklineFull"]
-    [@deriving.make.default false]
-    sparkline_full: bool,
+    [@deriving.make.default Gauge.make()]
+    gauge: Gauge.t,
 
-    [@deriving.yojson.key "sparklineLineColor"]
-    [@deriving.make.default "rgb(31, 120, 193)"]
-    sparkline_line_color: string,
-
-    [@deriving.yojson.key "sparklineShow"]
-    [@deriving.make.default false]
-    sparkline_show: bool,
-
-    [@deriving.yojson.key "gaugeShow"]
-    [@deriving.make.default false]
-    gauge_show: bool,
-
-    [@deriving.yojson.key "gaugeMinValue"]
-    [@deriving.make.default 0.0]
-    gauge_min_value: float,
-
-    [@deriving.yojson.key "gaugeMaxValue"]
-    [@deriving.make.default 100.0]
-    gauge_max_value: float,
-
-    [@deriving.yojson.key "gaugeThresholdMarkers"]
-    [@deriving.make.default true]
-    gauge_threshold_markers: bool,
-
-    [@deriving.yojson.key "gaugeThresholdLabels"]
-    [@deriving.make.default false]
-    gauge_threshold_labels: bool,
+    targets: list(Target.t)
   };
 };
 
