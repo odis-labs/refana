@@ -187,6 +187,23 @@ module Query = {
 };
 
 module Graph = {
+
+  type override = Yojson.Safe.t;
+
+  let override = (~alias, ~color=?, ()) => {
+    let items = [
+      ("alias", `String(alias))
+    ];
+    let items =
+      switch(color) {
+      | Some(color) => [("color", `String(color)), ...items]
+      | None => items
+      };
+    `Assoc(items)
+  };
+  
+  let override_to_yojson = (x) => x;
+
   [@deriving (make, to_yojson { strict: false })]
   type t = {
     [@deriving.make.default false]
@@ -239,6 +256,10 @@ module Graph = {
     [@deriving.yojson.key "steppedLine"]
     [@deriving.make.default false]
     stepped_line: bool,
+
+    [@deriving.yojson.key "seriesOverrides"]
+    [@deriving.make.default []]
+    series_overrides: list(override),
 
     [@deriving.yojson.key "targets"]
     [@deriving.make.default []]

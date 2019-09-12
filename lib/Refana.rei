@@ -82,6 +82,13 @@ module Query: {
 module Graph: {
   type t;
 
+  type override;
+  let override: (
+    ~alias: string,
+    ~color: string=?,
+    unit
+   ) => override;
+
   let make: (
     ~bars: bool=?,
     ~dash_length: int=?,
@@ -98,6 +105,7 @@ module Graph: {
     ~null_point_mode: option(string)=?,
     ~stack: bool=?,
     ~stepped_line: bool=?,
+    ~series_overrides: list(override)=?,
     ~queries: list(Query.t)=?,
     ~legend: legend=?,
     ~tooltip: tooltip=?,
