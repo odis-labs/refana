@@ -226,6 +226,10 @@ module Graph = {
     [@deriving.make.default 10]
     space_length: int,
 
+    [@deriving.yojson.key "nullPointMode"]
+    [@deriving.make.default None]
+    null_point_mode: option(string),
+
     [@deriving.make.default false]
     stack: bool,
 

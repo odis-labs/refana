@@ -83,13 +83,31 @@ module Graph: {
   type t;
 
   let make: (
-    ~bars: bool=?, ~dash_length: int=?, ~dashes: bool=?, ~datasource: string=?,
-    ~fill: int=?, ~lines: bool=?, ~line_width: int=?, ~percentage: bool=?,
-    ~point_radius: int=?, ~points: bool=?, ~space_length: int=?, ~stack: bool=?,
-    ~stepped_line: bool=?, ~queries: list(Query.t)=?, ~legend: legend=?,
-    ~tooltip: tooltip=?, ~xaxis: xaxis=?, ~yaxes: list(yaxis)=?,
-    ~yaxis: yaxis=?, ~position: grid_pos, ~type_: string=?,
-    ~id: int=?, ~title: string, unit
+    ~bars: bool=?,
+    ~dash_length: int=?,
+    ~dashes: bool=?,
+    ~datasource: string=?,
+    ~fill: int=?,
+    ~lines: bool=?,
+    ~line_width: int=?,
+    ~percentage: bool=?,
+    ~point_radius: int=?,
+    ~points: bool=?,
+    ~space_length: int=?,
+    ~null_point_mode: option(string)=?,
+    ~stack: bool=?,
+    ~stepped_line: bool=?,
+    ~queries: list(Query.t)=?,
+    ~legend: legend=?,
+    ~tooltip: tooltip=?,
+    ~xaxis: xaxis=?,
+    ~yaxes: list(yaxis)=?,
+    ~yaxis: yaxis=?,
+    ~position: grid_pos,
+    ~type_: string=?,
+    ~id: int=?,
+    ~title: string,
+    unit
   ) => t;
 };
 
