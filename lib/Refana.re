@@ -190,7 +190,7 @@ module Graph = {
 
   type override = Yojson.Safe.t;
 
-  let override = (~alias, ~color=?, ()) => {
+  let override = (~color=?, alias) => {
     let items = [
       ("alias", `String(alias))
     ];

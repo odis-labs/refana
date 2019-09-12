@@ -84,9 +84,8 @@ module Graph: {
 
   type override;
   let override: (
-    ~alias: string,
     ~color: string=?,
-    unit
+    string
    ) => override;
 
   let make: (
