@@ -87,6 +87,7 @@ module Graph: {
     ~dash_length: int=?,
     ~dashes: bool=?,
     ~datasource: string=?,
+    ~description: string=?,
     ~fill: int=?,
     ~lines: bool=?,
     ~line_width: int=?,
@@ -174,7 +175,7 @@ module Singlestat: {
   }
 
   let make: (
-        ~title: string,
+    ~title: string,
     ~position: grid_pos,
     ~id: int=?,
     ~format: string=?,
@@ -242,7 +243,7 @@ module Template: {
 
   let make: (
     ~name: string,
-    ~datasource: string,
+    ~datasource: option(string)=?,
     ~query: string,
     ~label: option(string)=?,
     ~all_value: option(string)=?,
@@ -266,9 +267,14 @@ module Template: {
 module Dashboard: {
   type annotation;
   let annotation: (
-    ~built_in: int=?, ~datasource: string=?, ~enable: bool=?,
-    ~hide: bool=?, ~icon_color: string=?, ~name: string=?,
-    ~kind: string=?, unit
+    ~built_in: int=?,
+    ~datasource: string=?,
+    ~enable: bool=?,
+    ~hide: bool=?,
+    ~icon_color: string=?,
+    ~name: string=?,
+    ~kind: string=?,
+    unit
   ) => annotation;
 
 

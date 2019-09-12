@@ -202,6 +202,9 @@ module Graph = {
     [@deriving.make.default "prometheus"]
     datasource: string,
 
+    [@deriving.make.default ""]
+    description: string,
+
     [@deriving.make.default 1]
     fill: int,
 
@@ -512,7 +515,9 @@ module Template = {
   [@deriving (make, to_yojson { strict: false })]
   type t = {
     name: string,
-    datasource: string,
+
+    [@deriving.make.default None]
+    datasource: option(string),
     query: string,
 
     [@deriving.make.default None]
