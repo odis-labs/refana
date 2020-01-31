@@ -2,8 +2,8 @@
 
 Define Grafana dashboards with ReasonML.
 
-- [Homepage](https://rizo.github.io/refana/refana)
-- [API reference](https://rizo.github.io/refana/refana/Refana)
+- [Homepage](https://odis-labs.github.io/refana/refana)
+- [API reference](https://odis-labs.github.io/refana/refana/Refana)
 
 
 ## Usage
