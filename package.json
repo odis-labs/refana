@@ -21,7 +21,7 @@
     "@opam/yojson": "*",
     "@opam/ppx_deriving": "*",
     "@opam/ppx_deriving_yojson": "*",
-    "ppx_obj_make": "git://github.com/rizo/ppx_obj_make.git#fe0914d"
+    "ppx_obj_make": "odis-labs/ppx_obj_make#fe0914d"
   },
   "devDependencies": {
     "odoc": "git://github.com/ocaml/odoc.git:odoc.opam#master",
